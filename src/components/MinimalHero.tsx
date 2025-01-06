@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Square, Circle, Triangle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function MinimalHero() {
+  const navigate = useNavigate();
   const [currentShape, setCurrentShape] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   
@@ -58,7 +60,7 @@ export function MinimalHero() {
           </p>
           <button 
             className="bg-white text-black px-8 py-4 text-sm tracking-wider hover:bg-gray-100 transition-colors w-fit"
-            onClick={() => window.location.href='/home'}
+            onClick={() => navigate('/home')}
           >
             Get Started
           </button>
