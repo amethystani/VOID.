@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Split, Eye, Image as ImageIcon, Grid, Type, Circle, Layout, Play, ArrowUpRight, Camera, Sparkles, Image, CircleOff, GridIcon, RotateCw, LogOut, Settings, User } from 'lucide-react';
+import { Split, Eye, Image as ImageIcon, Grid, Type, Circle, Layout, Play, ArrowUpRight, Camera, Sparkles, Image, CircleOff, GridIcon, RotateCw, LogOut, Settings, User, Menu } from 'lucide-react';
 
 const IMAGES = {
   hero: '/images/image5.png',
@@ -23,6 +23,15 @@ const IMAGES = {
 const Home = () => {
   const popupRef = useRef(null);
   const buttonRef = useRef(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Added state for popup and mock user
+  const [showPopup, setShowPopup] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const mockUser = {
+    name: 'John Doe',
+    email: 'john@example.com'
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -41,13 +50,6 @@ const Home = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  // Added state for popup and mock user
-  const [showPopup, setShowPopup] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const mockUser = {
-    name: 'John Doe',
-    email: 'john@example.com'
-  };
 
   const sections = [
     {
@@ -197,7 +199,7 @@ const Home = () => {
     if (!showPopup) return null;
 
     return (
-      <div ref={popupRef} className="absolute top-20 right-8 w-64 bg-black border border-white/10 shadow-lg">
+      <div ref={popupRef} className="absolute top-14 md:top-20 right-4 md:right-8 w-64 bg-black border border-white/10 shadow-lg">
         {isLoggedIn ? (
           <div className="p-4">
             <div className="flex items-center space-x-3 pb-4 border-b border-white/10">
@@ -233,27 +235,21 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Navigation */}
-      <nav className="fixed w-full z-50 px-8 py-6 bg-black/90 backdrop-blur-sm border-b border-white/10">
+      <nav className="fixed w-full z-50 px-4 md:px-8 py-4 md:py-6 bg-black/90 backdrop-blur-sm border-b border-white/10">
         <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold cursor-pointer" onClick={() => window.location.href='/'}>
+          <div className="text-xl md:text-2xl font-bold cursor-pointer" onClick={() => window.location.href='/'}>
             VOID.
           </div>
-          <div className="flex space-x-8">
-            <button 
-              className="text-gray-400 hover:text-white" 
-              onClick={() => window.location.href='/tools'}
-            >
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex space-x-8">
+            <button className="text-gray-400 hover:text-white" onClick={() => window.location.href='/tools'}>
               TOOLS
             </button>
-            <button 
-              className="text-gray-400 hover:text-white" 
-              onClick={() => window.location.href='/about'}
-            >
+            <button className="text-gray-400 hover:text-white" onClick={() => window.location.href='/about'}>
               ABOUT
             </button>
-            <button className="text-gray-400 hover:text-white" 
-                    onClick={() => window.location.href='/void-gallery'}
-            >
+            <button className="text-gray-400 hover:text-white" onClick={() => window.location.href='/void-gallery'}>
               GALLERY
             </button>
             <div className="relative">
@@ -268,22 +264,55 @@ const Home = () => {
               <SignInPopup />
             </div>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden p-2"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <Menu className="w-6 h-6" />
+          </button>
         </div>
+
+        {/* Mobile Navigation */}
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-black border-b border-white/10 py-4">
+            <div className="flex flex-col space-y-4 px-4">
+              <button className="text-gray-400 hover:text-white text-left" onClick={() => window.location.href='/tools'}>
+                TOOLS
+              </button>
+              <button className="text-gray-400 hover:text-white text-left" onClick={() => window.location.href='/about'}>
+                ABOUT
+              </button>
+              <button className="text-gray-400 hover:text-white text-left" onClick={() => window.location.href='/void-gallery'}>
+                GALLERY
+              </button>
+              <button 
+                className="bg-white text-black px-4 py-2 flex items-center space-x-2"
+                onClick={() => setShowPopup(!showPopup)}
+              >
+                <span>{isLoggedIn ? mockUser.name : 'SIGN IN'}</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
-      <div className="pt-32 px-8">
-        <div className="flex justify-between items-start">
-          <div className="max-w-2xl">
-            <h1 className="text-7xl font-bold leading-tight mb-8">
+      <div className="pt-24 md:pt-32 px-4 md:px-8">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-start gap-8">
+          <div className="max-w-2xl text-center md:text-left">
+            <h1 className="text-4xl md:text-7xl font-bold leading-tight mb-8">
               NO FRILLS.
               <br />
               PURE AESTHETIC.
             </h1>
             
-            <div className="flex items-center space-x-6">
-              <button className="flex items-center space-x-3 border border-white/20 bg-white text-black px-6 py-3" 
-                      onClick={() => window.location.href='/tools'}
+            <div className="flex justify-center md:justify-start">
+              <button 
+                className="flex items-center space-x-3 border border-white/20 bg-white text-black px-6 py-3" 
+                onClick={() => window.location.href='/tools'}
               >
                 <Play className="w-5 h-5" />
                 <span>Start Uploading</span>
@@ -292,7 +321,7 @@ const Home = () => {
           </div>
 
           {/* Feature Card */}
-          <div className="w-96 bg-black rounded-3xl p-8 text-white relative overflow-hidden group border border-white/10">
+          <div className="w-full md:w-96 bg-black rounded-3xl p-8 text-white relative overflow-hidden group border border-white/10">
             <img 
               src={IMAGES.hero} 
               alt="Abstract Pattern" 
@@ -305,9 +334,12 @@ const Home = () => {
                 <br />
                 <br />
                 <br />
+                <br />
+                <br />
               </div>
-              <button className="flex items-center space-x-2 bg-white text-black px-6 py-3" 
-                      onClick={() => window.location.href='/void-gallery'}
+              <button 
+                className="flex items-center space-x-2 bg-white text-black px-6 py-3" 
+                onClick={() => window.location.href='/void-gallery'}
               >
                 <span>Share your image</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -319,42 +351,42 @@ const Home = () => {
 
       {/* Feature Sections */}
       {sections.map((section, sectionIndex) => (
-        <div key={sectionIndex} className="px-8 py-24">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-bold mb-8">{section.title}</h2>
-            <div className="flex justify-center gap-4">
+        <div key={sectionIndex} className="px-4 md:px-8 py-16 md:py-24">
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 md:mb-8">{section.title}</h2>
+            <div className="flex flex-wrap justify-center gap-4">
               {section.badges.map((badge, index) => (
-                <div key={index} className="px-6 py-2 border border-white/20 rounded-full text-sm flex items-center space-x-2">
-                  <badge.icon className="w-4 h-4" />
-                  <span>{badge.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+           <div key={index} className="px-4 md:px-6 py-2 border border-white/20 rounded-full text-sm flex items-center space-x-2">
+           <badge.icon className="w-4 h-4" />
+           <span>{badge.label}</span>
+         </div>
+       ))}
+     </div>
+   </div>
 
-          <div className="grid grid-cols-3 gap-6">
-            {section.cards.map((card, cardIndex) => (
-              <div key={cardIndex} 
-                   className="bg-black text-white rounded-3xl overflow-hidden group cursor-pointer relative h-96 border border-white/10">
-                <img 
-                  src={card.img} 
-                  alt={card.title}
-                  className="absolute top-0 left-0 w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/80 p-8 flex flex-col justify-start backdrop-blur-sm">
-                  <div>
-                    <h3 className="text-2xl font-bold mb-2">{card.title}</h3>
-                    <h4 className="text-sm text-white/60 mb-4">{card.subtitle}</h4>
-                    <p className="text-white/70">{card.desc}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+     {section.cards.map((card, cardIndex) => (
+       <div key={cardIndex} 
+            className="bg-black text-white rounded-3xl overflow-hidden group cursor-pointer relative h-80 md:h-96 border border-white/10">
+         <img 
+           src={card.img} 
+           alt={card.title}
+           className="absolute top-0 left-0 w-full h-full object-cover"
+         />
+         <div className="absolute inset-0 bg-black/80 p-6 md:p-8 flex flex-col justify-start backdrop-blur-sm">
+           <div>
+             <h3 className="text-xl md:text-2xl font-bold mb-2">{card.title}</h3>
+             <h4 className="text-sm text-white/60 mb-4">{card.subtitle}</h4>
+             <p className="text-sm md:text-base text-white/70">{card.desc}</p>
+           </div>
+         </div>
+       </div>
+     ))}
+   </div>
+ </div>
+))}
+</div>
+);
 };
 
 export default Home;
