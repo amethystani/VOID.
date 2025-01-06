@@ -1,5 +1,5 @@
-import React from 'react';
-import { Split, Eye, Image as ImageIcon, Grid, Type, Circle, Layout, Play, ArrowUpRight, Camera, Sparkles, Image, CircleOff, GridIcon, RotateCw } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Split, Eye, Image as ImageIcon, Grid, Type, Circle, Layout, Play, ArrowUpRight, Camera, Sparkles, Image, CircleOff, GridIcon, RotateCw, LogOut, Settings, User } from 'lucide-react';
 
 const IMAGES = {
   hero: '/images/image5.png',
@@ -21,6 +21,34 @@ const IMAGES = {
 };
 
 const Home = () => {
+  const popupRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        popupRef.current && 
+        !popupRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setShowPopup(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  // Added state for popup and mock user
+  const [showPopup, setShowPopup] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const mockUser = {
+    name: 'John Doe',
+    email: 'john@example.com'
+  };
+
   const sections = [
     {
       title: "Text behind image",
@@ -164,6 +192,44 @@ const Home = () => {
     }
   ];
 
+  // Added SignInPopup component
+  const SignInPopup = () => {
+    if (!showPopup) return null;
+
+    return (
+      <div ref={popupRef} className="absolute top-20 right-8 w-64 bg-black border border-white/10 shadow-lg">
+        {isLoggedIn ? (
+          <div className="p-4">
+            <div className="flex items-center space-x-3 pb-4 border-b border-white/10">
+              <User className="w-6 h-6" />
+              <div>
+                <div className="font-bold">{mockUser.name}</div>
+                <div className="text-sm text-white/60">{mockUser.email}</div>
+              </div>
+            </div>
+            <div className="pt-4 space-y-2">
+              <button className="w-full flex items-center space-x-3 px-4 py-2 hover:bg-white/5" onClick={() => window.location.href='/settings'}>
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
+              </button>
+              <button className="w-full flex items-center space-x-3 px-4 py-2 hover:bg-white/5" onClick={() => setIsLoggedIn(false)}>
+                <LogOut className="w-4 h-4" />
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="p-4">
+            <button className="w-full bg-white text-black px-4 py-2 flex items-center justify-center space-x-2" onClick={() => setIsLoggedIn(true)}>
+              <span>SIGN IN</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Navigation */}
@@ -190,10 +256,17 @@ const Home = () => {
             >
               GALLERY
             </button>
-            <button className="bg-white text-black px-4 py-1 flex items-center space-x-2">
-              <span>SIGN IN</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </button>
+            <div className="relative">
+              <button 
+                ref={buttonRef}
+                className="bg-white text-black px-4 py-1 flex items-center space-x-2"
+                onClick={() => setShowPopup(!showPopup)}
+              >
+                <span>{isLoggedIn ? mockUser.name : 'SIGN IN'}</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </button>
+              <SignInPopup />
+            </div>
           </div>
         </div>
       </nav>
