@@ -39,8 +39,6 @@ const marqueeItems = [
 export function Gallery() {
   const [imagesDimensions, setImagesDimensions] = useState([]);
   const containerRef = useRef(null);
-  const firstMarquee = useRef(null);
-  const secondMarquee = useRef(null);
   
   useEffect(() => {
     const loadImages = async () => {
@@ -79,24 +77,12 @@ export function Gallery() {
     <div className="bg-white">
       {/* Marquee Section */}
       <div className="bg-white border-y border-gray-100 py-8">
-        <div 
-          ref={containerRef}
-          className="relative w-full overflow-hidden"
-        >
-          <div className="flex whitespace-nowrap">
-            <div 
-              ref={firstMarquee}
-              className="marquee-content flex flex-nowrap"
-            >
-              {marqueeItems.map((text, index) => renderMarqueeItem(text, index))}
-              {marqueeItems.map((text, index) => renderMarqueeItem(text, `dup1-${index}`))}
-            </div>
-            <div 
-              ref={secondMarquee}
-              className="marquee-content flex flex-nowrap absolute top-0 left-0"
-            >
-              {marqueeItems.map((text, index) => renderMarqueeItem(text, `dup2-${index}`))}
-              {marqueeItems.map((text, index) => renderMarqueeItem(text, `dup3-${index}`))}
+        <div className="relative w-full overflow-x-hidden">
+          {/* First marquee track */}
+          <div className="track">
+            <div className="flex whitespace-nowrap marquee-inner">
+              {marqueeItems.map((text, index) => renderMarqueeItem(text, `track1-${index}`))}
+              {marqueeItems.map((text, index) => renderMarqueeItem(text, `track1-dup-${index}`))}
             </div>
           </div>
         </div>
@@ -114,7 +100,7 @@ export function Gallery() {
               return (
                 <div
                   key={index}
-                  className={`relative bg-gray-50 rounded-xl overflow-hidden ${
+                  className={`relative bg-gray-50 rounded-xl overflow-hidden group ${
                     isWide ? 'col-span-2' : isTall ? 'row-span-2' : ''
                   }`}
                   style={{
@@ -129,7 +115,7 @@ export function Gallery() {
                       className="max-w-full max-h-full object-contain"
                     />
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent opacity-0 translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
                     <h3 className="text-xl font-bold mb-2 text-white">{image.alt}</h3>
                     <p className="text-sm text-white/90">{image.description}</p>
                   </div>
@@ -141,13 +127,17 @@ export function Gallery() {
       </div>
 
       <style jsx>{`
-        .marquee-content {
-          min-width: 100%;
-          animation: marquee 40s linear infinite;
+        .track {
+          position: relative;
+          width: 100%;
+          height: 100%;
         }
 
-        .marquee-content:nth-child(2) {
-          animation: marquee2 40s linear infinite;
+        .marquee-inner {
+          position: relative;
+          width: max-content;
+          animation: marquee 30s linear infinite;
+          padding-left: 100%;
         }
 
         @keyframes marquee {
@@ -158,14 +148,10 @@ export function Gallery() {
             transform: translateX(-100%);
           }
         }
-        
-        @keyframes marquee2 {
-          0% {
-            transform: translateX(100%);
-          }
-          100% {
-            transform: translateX(0);
-          }
+
+        /* Pause animation on hover */
+        .track:hover .marquee-inner {
+          animation-play-state: paused;
         }
       `}</style>
     </div>
