@@ -56,7 +56,10 @@ export function MinimalHero() {
           <p className="text-gray-400 text-lg mb-8 leading-relaxed">
             drop your photo. get it back cooler.
           </p>
-          <button className="bg-white text-black px-8 py-4 text-sm tracking-wider hover:bg-gray-100 transition-colors w-fit">
+          <button 
+            className="bg-white text-black px-8 py-4 text-sm tracking-wider hover:bg-gray-100 transition-colors w-fit"
+            onClick={() => window.location.href='/home'}
+          >
             Get Started
           </button>
         </div>
