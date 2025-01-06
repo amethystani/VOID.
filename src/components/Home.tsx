@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Split, Eye, Image as ImageIcon, Grid, Type, Circle, Layout, Play, ArrowUpRight, Camera, Sparkles, Image, CircleOff, GridIcon, RotateCw, LogOut, Settings, User, Menu } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const IMAGES = {
   hero: '/images/image5.png',
@@ -21,6 +22,7 @@ const IMAGES = {
 };
 
 const Home = () => {
+  const navigate = useNavigate();
   const popupRef = useRef(null);
   const buttonRef = useRef(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -210,7 +212,7 @@ const Home = () => {
               </div>
             </div>
             <div className="pt-4 space-y-2">
-              <button className="w-full flex items-center space-x-3 px-4 py-2 hover:bg-white/5" onClick={() => window.location.href='/settings'}>
+              <button className="w-full flex items-center space-x-3 px-4 py-2 hover:bg-white/5" onClick={() => navigate('/settings')}>
                 <Settings className="w-4 h-4" />
                 <span>Settings</span>
               </button>
@@ -237,19 +239,31 @@ const Home = () => {
       {/* Navigation */}
       <nav className="fixed w-full z-50 px-4 md:px-8 py-4 md:py-6 bg-black/90 backdrop-blur-sm border-b border-white/10">
         <div className="flex justify-between items-center">
-          <div className="text-xl md:text-2xl font-bold cursor-pointer" onClick={() => window.location.href='/'}>
+          <div 
+            className="text-xl md:text-2xl font-bold cursor-pointer" 
+            onClick={() => navigate('/')}
+          >
             VOID.
           </div>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
-            <button className="text-gray-400 hover:text-white" onClick={() => window.location.href='/tools'}>
+            <button 
+              className="text-gray-400 hover:text-white" 
+              onClick={() => navigate('/tools')}
+            >
               TOOLS
             </button>
-            <button className="text-gray-400 hover:text-white" onClick={() => window.location.href='/about'}>
+            <button 
+              className="text-gray-400 hover:text-white" 
+              onClick={() => navigate('/about')}
+            >
               ABOUT
             </button>
-            <button className="text-gray-400 hover:text-white" onClick={() => window.location.href='/void-gallery'}>
+            <button 
+              className="text-gray-400 hover:text-white" 
+              onClick={() => navigate('/void-gallery')}
+            >
               GALLERY
             </button>
             <div className="relative">
@@ -278,13 +292,22 @@ const Home = () => {
         {mobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-black border-b border-white/10 py-4">
             <div className="flex flex-col space-y-4 px-4">
-              <button className="text-gray-400 hover:text-white text-left" onClick={() => window.location.href='/tools'}>
+              <button 
+                className="text-gray-400 hover:text-white text-left" 
+                onClick={() => navigate('/tools')}
+              >
                 TOOLS
               </button>
-              <button className="text-gray-400 hover:text-white text-left" onClick={() => window.location.href='/about'}>
+              <button 
+                className="text-gray-400 hover:text-white text-left" 
+                onClick={() => navigate('/about')}
+              >
                 ABOUT
               </button>
-              <button className="text-gray-400 hover:text-white text-left" onClick={() => window.location.href='/void-gallery'}>
+              <button 
+                className="text-gray-400 hover:text-white text-left" 
+                onClick={() => navigate('/void-gallery')}
+              >
                 GALLERY
               </button>
               <button 
@@ -312,7 +335,7 @@ const Home = () => {
             <div className="flex justify-center md:justify-start">
               <button 
                 className="flex items-center space-x-3 border border-white/20 bg-white text-black px-6 py-3" 
-                onClick={() => window.location.href='/tools'}
+                onClick={() => navigate('/tools')}
               >
                 <Play className="w-5 h-5" />
                 <span>Start Uploading</span>
@@ -339,7 +362,7 @@ const Home = () => {
               </div>
               <button 
                 className="flex items-center space-x-2 bg-white text-black px-6 py-3" 
-                onClick={() => window.location.href='/void-gallery'}
+                onClick={() => navigate('/void-gallery')}
               >
                 <span>Share your image</span>
                 <ArrowUpRight className="w-4 h-4" />

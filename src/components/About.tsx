@@ -1,7 +1,10 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const About = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 relative">
       {/* Header with ABOUT. text and Back button */}
@@ -12,7 +15,7 @@ const About = () => {
         </h1>
         <button 
           className="flex items-center gap-2 px-4 md:px-6 py-2 md:py-3 bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 transition-all text-xl md:text-2xl font-medium tracking-tighter"
-          onClick={() => window.location.href='/home'}
+          onClick={() => navigate('/home')}
         >
           <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6" />
           BACK
@@ -43,7 +46,7 @@ const About = () => {
           <div className="pt-6 md:pt-8">
             <button 
               className="w-full md:w-auto text-lg md:text-xl px-6 md:px-8 py-3 md:py-4 bg-white text-black hover:bg-white/90 transition-all"
-              onClick={() => window.location.href='/tools'}
+              onClick={() => navigate('/tools')}
             >
               Explore Our Tools
             </button>
