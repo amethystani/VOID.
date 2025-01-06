@@ -46,7 +46,7 @@ const About = () => {
           <div className="pt-6 md:pt-8">
             <button 
               className="w-full md:w-auto text-lg md:text-xl px-6 md:px-8 py-3 md:py-4 bg-white text-black hover:bg-white/90 transition-all"
-              onClick={() => navigate('/tools')}
+              onClick={() => navigate('/tools')} //d
             >
               Explore Our Tools
             </button>
