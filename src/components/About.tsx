@@ -3,7 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const About = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate();//txt
   
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12 relative">
@@ -46,7 +46,7 @@ const About = () => {
           <div className="pt-6 md:pt-8">
             <button 
               className="w-full md:w-auto text-lg md:text-xl px-6 md:px-8 py-3 md:py-4 bg-white text-black hover:bg-white/90 transition-all"
-              onClick={() => navigate('/tools')} //d
+              onClick={() => navigate('/tools')} 
             >
               Explore Our Tools
             </button>
